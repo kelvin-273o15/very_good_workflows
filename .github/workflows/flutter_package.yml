@@ -74,6 +74,16 @@ jobs:
           very_good --analytics false
           very_good packages get --recursive
 
+      - name: Build Runner on Envied
+        usage: https://docs.github.com/en/actions/learn-github-actions/contexts#example-usage-of-the-secrets-context
+        env:
+          APP_ENV: ${{ env.APP_ENV }}
+        run: |
+          cat <<EOF > .env
+          APP_ENV=$APP_ENV
+          EOF
+      - run: flutter pub run build_runner build
+
       - name: ⚙️ Run Setup
         if: "${{inputs.setup != ''}}"
         run: ${{inputs.setup}}
